@@ -1,6 +1,6 @@
 { "name": "simpledatabase"
-, "description": "Chess game and evaluation"
-, "keywords": [ "game", "chess", "javascript" ]
+, "description": "Simple Database implemented in JavaScript, Node.js, in-memory and file persistence, WIP"
+, "keywords": [ "database", "sql", "javascript", "node" ]
 , "version": "0.0.1alpha"
 , "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
 , "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleDatabase.git" }
