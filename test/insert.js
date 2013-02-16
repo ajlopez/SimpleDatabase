@@ -2,44 +2,57 @@
 var sdb = require('../');
 
 exports['Insert Row'] = function (test) {
-	var row = sdb.database('test', { create: true }).table('customers').insert({ name: 'Adam' }).run();
-	test.ok(row);
-    test.ok(row.id);
+    var table = sdb.database('test', { create: true }).table('customers');
+	var result = table.insert({ name: 'Adam' }).run();
+
+	test.ok(result);
+    test.equal(result.inserted, 1);
+    test.equal(result.errors, 0);
+    test.ok(result.keys);
+    test.equal(result.keys.length, 1);
+    test.equal(result.keys[0], 1);
+
+    var count = table.count().run();
+    test.equal(count, 1);
+    
+    var row = table.get(1).run();
+    
+    test.ok(row);
     test.equal(row.id, 1);
     test.equal(row.name, 'Adam');
 
-    var count = sdb.database('test').table('customers').count().run();
-    test.equal(count, 1);
-
 	test.done();
 };
 
-exports['Insert Two Rows'] = function (test) {
-	var rows = sdb.database('test', { create: true }).table('customers').insert({ name: 'Adam' }).insert({name : 'Eve'}).run();
-	test.ok(rows);
-    test.equal(rows.length, 2);
-    test.equal(rows[0].id, 1);
-    test.equal(rows[0].name, 'Adam');
-    test.equal(rows[1].id, 2);
-    test.equal(rows[1].name, 'Eve');
+exports['Insert an Array with Two Rows'] = function (test) {
+    var table = sdb.database('test', { create: true }).table('customers');
+	var result = table.insert([{ name: 'Adam' }, {name : 'Eve'}]).run();
+    
+	test.ok(result);
+    test.equal(result.inserted, 2);
+    test.equal(result.errors, 0);
+    test.ok(result.keys);
+    test.equal(result.keys.length, 2);
+    test.equal(result.keys[0], 1);
+    test.equal(result.keys[1], 2);
 
-    var count = sdb.database('test').table('customers').count().run();    
+    var count = table.count().run();    
     test.equal(count, 2);
 
+    var row = table.get(1).run();
+    
+    test.ok(row);
+    test.equal(row.id, 1);
+    test.equal(row.name, 'Adam');
+
+    var row = table.get(2).run();
+    
+    test.ok(row);
+    test.equal(row.id, 2);
+    test.equal(row.name, 'Eve');
+    
+    test.equal(table.get(3).run(), null);
+    
 	test.done();
 };
 
-exports['Insert Array of Rows'] = function (test) {
-	var rows = sdb.database('test', { create: true }).table('customers').insert([{ name: 'Adam' }, { name : 'Eve' }]).run();
-	test.ok(rows);
-    test.equal(rows.length, 2);
-    test.equal(rows[0].id, 1);
-    test.equal(rows[0].name, 'Adam');
-    test.equal(rows[1].id, 2);
-    test.equal(rows[1].name, 'Eve');
-
-    var count = sdb.database('test').table('customers').count().run();    
-    test.equal(count, 2);
-
-	test.done();
-};

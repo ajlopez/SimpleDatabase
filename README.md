@@ -10,7 +10,6 @@ Via npm on Node:
 npm install simpledatabase
 ```
 
-
 ## Usage
 
 Reference in your program:
@@ -36,6 +35,14 @@ TBD
 ## To do
 
 - Samples
+- Usage
+- Distributed support
+- Persistent support
+
+## References
+
+- [RethinkDB](http://www.rethinkdb.com)
+- [RethingDB API](http://www.rethinkdb.com/api/)
 
 ## Contribution
 
