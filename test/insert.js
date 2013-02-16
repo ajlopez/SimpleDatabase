@@ -1,8 +1,14 @@
 
 var sdb = require('../');
 
+function getTable() {
+    var db = sdb.dbCreate('test').run();
+    var table = db.tableCreate('customers').run();
+    return table;
+}
+
 exports['Insert Row'] = function (test) {
-    var table = sdb.database('test', { create: true }).table('customers');
+    var table = getTable();
 	var result = table.insert({ name: 'Adam' }).run();
 
 	test.ok(result);
@@ -25,7 +31,7 @@ exports['Insert Row'] = function (test) {
 };
 
 exports['Insert an Array with Two Rows'] = function (test) {
-    var table = sdb.database('test', { create: true }).table('customers');
+    var table = getTable();
 	var result = table.insert([{ name: 'Adam' }, {name : 'Eve'}]).run();
     
 	test.ok(result);

@@ -1,8 +1,14 @@
 
 var sdb = require('../');
 
+function getTable() {
+    var db = sdb.dbCreate('test').run();
+    var table = db.tableCreate('customers').run();
+    return table;
+}
+
 exports['Cursor of one Row'] = function (test) {
-	var table = sdb.database('test', { create: true }).table('customers');
+	var table = getTable();
     table.insert({ name: 'Adam', age: 800 }).run();
     var cursor = table.run();
     var total = 0;
@@ -18,7 +24,7 @@ exports['Cursor of one Row'] = function (test) {
 };
 
 exports['Cursor of Two Rows'] = function (test) {
-	var table = sdb.database('test', { create: true }).table('customers');
+	var table = getTable();
     table.insert([{ name: 'Adam', age: 800 }, { name: 'Eve', age: 600 }]).run();
     var cursor = table.run();
     var total = 0;
