@@ -10,8 +10,19 @@ exports['Insert Row'] = function (test) {
 	test.done();
 };
 
-exports['Insert Rows'] = function (test) {
+exports['Insert Two Rows'] = function (test) {
 	var rows = sdb.database('test', { create: true }).table('customers').insert({ name: 'Adam' }).insert({name : 'Eve'}).run();
+	test.ok(rows);
+    test.equal(rows.length, 2);
+    test.equal(rows[0].id, 1);
+    test.equal(rows[0].name, 'Adam');
+    test.equal(rows[1].id, 2);
+    test.equal(rows[1].name, 'Eve');
+	test.done();
+};
+
+exports['Insert Array of Rows'] = function (test) {
+	var rows = sdb.database('test', { create: true }).table('customers').insert([{ name: 'Adam' }, { name : 'Eve' }]).run();
 	test.ok(rows);
     test.equal(rows.length, 2);
     test.equal(rows[0].id, 1);
