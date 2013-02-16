@@ -1,6 +1,6 @@
 # SimpleDatabase
 
-Simple Database implemented in JavaScript, Node.js, in-memory and file persistence, WIP.
+Simple NoSQL Database implemented in JavaScript, Node.js, in-memory and file persistence, WIP.
 
 ## Installation
 

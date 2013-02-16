@@ -1,16 +1,17 @@
 { "name": "simpledatabase"
-, "description": "Simple Database implemented in JavaScript, Node.js, in-memory and file persistence, WIP"
-, "keywords": [ "database", "sql", "javascript", "node" ]
+, "description": "Simple NoSQL Database implemented in JavaScript, Node.js, in-memory and file persistence, WIP"
+, "keywords": [ "database", "nosql", "javascript", "node" ]
 , "version": "0.0.1alpha"
 , "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
 , "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleDatabase.git" }
 , "main": "./lib/simpledatabase.js"
 , "engines": { "node": ">= 0.6.0 && < 0.9.0" }
 , "scripts": {
-    "test": "node ./test.js"
+    "test": "nodeunit test"
   }
 , "dependencies": {
   }
 , "devDependencies": {
+    "nodeunit": ">= 0.7.4"
   }
 }
