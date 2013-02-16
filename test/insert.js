@@ -7,6 +7,10 @@ exports['Insert Row'] = function (test) {
     test.ok(row.id);
     test.equal(row.id, 1);
     test.equal(row.name, 'Adam');
+
+    var count = sdb.database('test').table('customers').count().run();
+    test.equal(count, 1);
+
 	test.done();
 };
 
@@ -18,6 +22,10 @@ exports['Insert Two Rows'] = function (test) {
     test.equal(rows[0].name, 'Adam');
     test.equal(rows[1].id, 2);
     test.equal(rows[1].name, 'Eve');
+
+    var count = sdb.database('test').table('customers').count().run();    
+    test.equal(count, 2);
+
 	test.done();
 };
 
@@ -29,5 +37,9 @@ exports['Insert Array of Rows'] = function (test) {
     test.equal(rows[0].name, 'Adam');
     test.equal(rows[1].id, 2);
     test.equal(rows[1].name, 'Eve');
+
+    var count = sdb.database('test').table('customers').count().run();    
+    test.equal(count, 2);
+
 	test.done();
 };
