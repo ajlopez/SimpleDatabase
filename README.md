@@ -15,7 +15,7 @@ npm install simpledatabase
 Reference in your program:
 
 ```js
-var simpledatabase = require('simpledatabase');
+var sdb = require('simpledatabase');
 ```
 
 TBD
