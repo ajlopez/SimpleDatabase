@@ -21,11 +21,11 @@ exports['Insert Document'] = function (test) {
     var count = table.count().run();
     test.equal(count, 1);
     
-    var row = table.get(1).run();
+    var document = table.get(1).run();
     
-    test.ok(row);
-    test.equal(row.id, 1);
-    test.equal(row.name, 'Adam');
+    test.ok(document);
+    test.equal(document.id, 1);
+    test.equal(document.name, 'Adam');
 
 	test.done();
 };
