@@ -7,14 +7,14 @@ function getTable() {
     return table;
 }
 
-exports['Cursor of one Row'] = function (test) {
+exports['Cursor of one Document'] = function (test) {
 	var table = getTable();
     table.insert({ name: 'Adam', age: 800 }).run();
     var cursor = table.run();
     var total = 0;
     
-    cursor.next(function (row) {
-        total += row.age;
+    cursor.next(function (document) {
+        total += document.age;
         return true;
     });
     
@@ -23,14 +23,14 @@ exports['Cursor of one Row'] = function (test) {
 	test.done();
 };
 
-exports['Cursor of Two Rows'] = function (test) {
+exports['Cursor of Two Documents'] = function (test) {
 	var table = getTable();
     table.insert([{ name: 'Adam', age: 800 }, { name: 'Eve', age: 600 }]).run();
     var cursor = table.run();
     var total = 0;
     
-    cursor.next(function (row) {
-        total += row.age;
+    cursor.next(function (document) {
+        total += document.age;
         return true;
     });
     

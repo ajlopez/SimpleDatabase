@@ -7,7 +7,7 @@ function getTable() {
     return table;
 }
 
-exports['Insert Row'] = function (test) {
+exports['Insert Document'] = function (test) {
     var table = getTable();
 	var result = table.insert({ name: 'Adam' }).run();
 
@@ -30,7 +30,7 @@ exports['Insert Row'] = function (test) {
 	test.done();
 };
 
-exports['Insert an Array with Two Rows'] = function (test) {
+exports['Insert an Array with Two Documents'] = function (test) {
     var table = getTable();
 	var result = table.insert([{ name: 'Adam' }, {name : 'Eve'}]).run();
     
@@ -45,17 +45,17 @@ exports['Insert an Array with Two Rows'] = function (test) {
     var count = table.count().run();    
     test.equal(count, 2);
 
-    var row = table.get(1).run();
+    var document = table.get(1).run();
     
-    test.ok(row);
-    test.equal(row.id, 1);
-    test.equal(row.name, 'Adam');
+    test.ok(document);
+    test.equal(document.id, 1);
+    test.equal(document.name, 'Adam');
 
-    var row = table.get(2).run();
+    var document = table.get(2).run();
     
-    test.ok(row);
-    test.equal(row.id, 2);
-    test.equal(row.name, 'Eve');
+    test.ok(document);
+    test.equal(document.id, 2);
+    test.equal(document.name, 'Eve');
     
     test.equal(table.get(3).run(), null);
     
