@@ -26,7 +26,7 @@ exports['Update Document with New Value'] = function (test) {
 	test.done();
 };
 
-exports['Update Column with Expression'] = function (test) {
+exports['Update Column with Column Expression'] = function (test) {
     var table = getTable();
 	var result = table.insert({ name: 'Adam' }).run();
     
@@ -39,6 +39,23 @@ exports['Update Column with Expression'] = function (test) {
     test.equal(document.id, id);
     test.equal(document.name, 'Adam');
     test.equal(document.username, 'Adam');
+
+	test.done();
+};
+
+exports['Update Column with Add Expression'] = function (test) {
+    var table = getTable();
+	var result = table.insert({ name: 'Adam', age: 800 }).run();
+    
+    var id = result.keys[0];
+    table.get(id).update({ age: sdb.row('age').add(100) }).run();
+    
+    var document = table.get(id).run();
+    
+    test.ok(document);
+    test.equal(document.id, id);
+    test.equal(document.name, 'Adam');
+    test.equal(document.age, 900);
 
 	test.done();
 };
