@@ -21,11 +21,30 @@ exports['Insert and Get an Invariant Document'] = function (test) {
     
     test.ok(doc.id === undefined);
     
+    doc.name = 'New Adam';
+    
     var newdoc = table.get(1).run();
     
     test.ok(newdoc);
     test.equal(newdoc.id, 1);
     test.equal(newdoc.name, 'Adam');
+
+	test.done();
+};
+
+exports['Get a Copy of a Document'] = function (test) {
+    var table = getTable();
+    var doc = { name: 'Adam' };
+	table.insert(doc).run();
+    
+    var doc = table.get(1).run();
+    
+    test.equal(doc.name, 'Adam');
+    doc.name = 'New Adam';
+    
+    var doc2 = table.get(1).run();
+    test.equal(doc.name, 'New Adam');
+    test.equal(doc2.name, 'Adam');
 
 	test.done();
 };
