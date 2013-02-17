@@ -1,6 +1,6 @@
 # SimpleDatabase
 
-Simple NoSQL Database implemented in JavaScript, Node.js, WIP.
+Simple NoSQL Database implemented in JavaScript, Node.js, WIP. Inspired by [RethinkDB](http://www.rethinkdb.com).
 
 ## Installation
 
@@ -43,6 +43,8 @@ TBD
 
 - [RethinkDB](http://www.rethinkdb.com)
 - [RethingDB API](http://www.rethinkdb.com/api/)
+- [What is the advantage of RethinkDB over MongoDB?](http://www.quora.com/RethinkDB/What-is-the-advantage-of-RethinkDB-over-MongoDB)
+- [RethinkDB: Analyzing presidential elections](http://www.rethinkdb.com/docs/tutorials/elections/)
 
 ## Contribution
 
