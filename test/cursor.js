@@ -2,9 +2,10 @@
 var sdb = require('../');
 
 function getTable() {
-    var db = sdb.dbCreate('test').run();
-    var table = db.tableCreate('customers').run();
-    return table;
+    sdb.dbCreate('test').run();
+    var db = sdb.db('test');
+    db.tableCreate('customers').run();
+    return db.table('customers');
 }
 
 exports['Cursor of one Document'] = function (test) {

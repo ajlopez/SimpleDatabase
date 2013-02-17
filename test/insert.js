@@ -2,8 +2,10 @@
 var sdb = require('../');
 
 function getTable() {
-    var db = sdb.dbCreate('test').run();
-    var table = db.tableCreate('customers').run();
+    sdb.dbCreate('test').run();
+    var db = sdb.db('test');
+    db.tableCreate('customers').run();
+    var table = db.table('customers');
     return table;
 }
 
