@@ -59,3 +59,20 @@ exports['Update Column with Add Expression'] = function (test) {
 
 	test.done();
 };
+
+exports['Update Column with Sub Expression'] = function (test) {
+    var table = getTable();
+	var result = table.insert({ name: 'Adam', age: 800 }).run();
+    
+    var id = result.keys[0];
+    table.get(id).update({ age: sdb.row('age').sub(100) }).run();
+    
+    var document = table.get(id).run();
+    
+    test.ok(document);
+    test.equal(document.id, id);
+    test.equal(document.name, 'Adam');
+    test.equal(document.age, 700);
+
+	test.done();
+};
