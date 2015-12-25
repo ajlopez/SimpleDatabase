@@ -108,3 +108,34 @@ exports['insert authors'] = function (test) {
     })
     .run();
 };
+
+exports['retrieve authors'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        sdb.db('test', next);
+    })
+    .then(function (db, next) {
+        db.table('authors', next);
+    })
+    .then(function (table, next) {
+        table.run(next);
+    })
+    .then(function (cursor, next) {
+        cursor.toArray(next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 3);
+        
+        test.deepEqual(data[0], { id: 1, name: 'Adam', age: 800 });
+        test.deepEqual(data[1], { id: 2, name: 'Eve', age: 700 });
+        test.deepEqual(data[2], { id: 3, name: 'Abel', age: 600 });
+        
+        test.done();
+    })
+    .run();
+};
+
