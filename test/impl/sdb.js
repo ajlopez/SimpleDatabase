@@ -139,3 +139,33 @@ exports['retrieve authors'] = function (test) {
     .run();
 };
 
+exports['filter authors by name'] = function (test) {
+    test.async();
+    
+    async()
+    .then(function (data, next) {
+        sdb.db('test', next);
+    })
+    .then(function (db, next) {
+        db.table('authors', next);
+    })
+    .then(function (table, next) {
+        table.filter(sdb.row('name').eq('Adam'), next);
+    })
+    .then(function (filter, next) {
+        filter.run(next);
+    })
+    .then(function (cursor, next) {
+        cursor.toArray(next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 1);
+        
+        test.deepEqual(data[0], { id: 1, name: 'Adam', age: 800 });
+        
+        test.done();
+    })
+    .run();
+};
