@@ -30,6 +30,12 @@ exports['create author table'] = function (test) {
     .then(function (data, next) {
         test.ok(data);
         test.equal(typeof data, 'object');
+        
+        test.ok(data.config_changes);
+        test.ok(Array.isArray(data.config_changes));
+        test.ok(data.tables_created);
+        test.equal(data.tables_created, 1);
+        
         test.done();
     })
     .run();
