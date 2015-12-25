@@ -5,13 +5,13 @@
 , "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)"
 , "repository": { "type": "git", "url": "git://github.com/ajlopez/SimpleDatabase.git" }
 , "main": "./lib/simpledatabase.js"
-, "engines": { "node": ">= 0.6.0 && < 0.9.0" }
+, "engines": { "node": ">= 0.10.0" }
 , "scripts": {
-    "test": "nodeunit test"
+    "test": "simpleunit ./test -r"
   }
 , "dependencies": {
   }
 , "devDependencies": {
-    "nodeunit": ">= 0.7.4"
+    "simpleunit": "0.0.7"
   }
 }
