@@ -13,8 +13,7 @@ exports['get test db'] = function (test) {
         test.ok(data);
         test.equal(typeof data, 'object');
         test.done();
-    })
-    .run();
+    });
 };
 
 exports['create author table'] = function (test) {
@@ -40,8 +39,7 @@ exports['create author table'] = function (test) {
         test.equal(data.tables_created, 1);
         
         test.done();
-    })
-    .run();
+    });
 };
 
 exports['create existing author table'] = function (test) {
@@ -66,8 +64,7 @@ exports['create existing author table'] = function (test) {
         test.equal(data.tables_created, 0);
         
         test.done();
-    })
-    .run();
+    });
 };
 
 exports['insert authors'] = function (test) {
@@ -105,8 +102,7 @@ exports['insert authors'] = function (test) {
         test.equal(data.deleted, 0);
         
         test.done();
-    })
-    .run();
+    });
 };
 
 exports['retrieve authors'] = function (test) {
@@ -135,8 +131,7 @@ exports['retrieve authors'] = function (test) {
         test.deepEqual(data[2], { id: 3, name: 'Abel', age: 600 });
         
         test.done();
-    })
-    .run();
+    });
 };
 
 exports['filter authors by name'] = function (test) {
@@ -166,8 +161,7 @@ exports['filter authors by name'] = function (test) {
         test.deepEqual(data[0], { id: 1, name: 'Adam', age: 800 });
         
         test.done();
-    })
-    .run();
+    });
 };
 
 exports['filter authors by age greater 600'] = function (test) {
@@ -198,6 +192,5 @@ exports['filter authors by age greater 600'] = function (test) {
         test.deepEqual(data[1], { id: 2, name: 'Eve', age: 700 });
         
         test.done();
-    })
-    .run();
+    });
 };
