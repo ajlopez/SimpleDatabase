@@ -29,6 +29,26 @@ exports['get unknown db'] = function (test) {
     });
 };
 
+exports['create database'] = function (test) {
+    test.async();
+    
+    async()
+    .exec(function (next) {
+        sdb.dbCreate('sales', next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.strictEqual(typeof data, 'object');
+        
+        sdb.db('sales', next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.strictEqual(typeof data, 'object');
+        test.done();
+    });
+};
+
 exports['create author table'] = function (test) {
     test.async();
     
