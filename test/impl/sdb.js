@@ -49,6 +49,19 @@ exports['create database'] = function (test) {
     });
 };
 
+exports['create existing db'] = function (test) {
+    test.async();
+    
+    async()
+    .exec(function (next) {
+        sdb.dbCreate('sales', next);
+    })
+    .error(function (err) {
+        test.equal(err, "Error: Database 'sales' already exists");
+        test.done();
+    });
+};
+
 exports['create author table'] = function (test) {
     test.async();
     
