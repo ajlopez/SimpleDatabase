@@ -13,3 +13,12 @@ exports['get connection'] = function (test) {
         test.done();
     });
 };
+
+exports['get database'] = function (test) {
+    test.async();
+    
+    sdb.db('test').run(connection, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+    });
+};
