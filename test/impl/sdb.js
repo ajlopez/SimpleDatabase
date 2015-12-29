@@ -16,6 +16,19 @@ exports['get test db'] = function (test) {
     });
 };
 
+exports['get unknown db'] = function (test) {
+    test.async();
+    
+    async()
+    .exec(function (next) {
+        sdb.db('foo', next);
+    })
+    .error(function (err) {
+        test.equal(err, "Error: Database 'foo' does not exist");
+        test.done();
+    });
+};
+
 exports['create author table'] = function (test) {
     test.async();
     
