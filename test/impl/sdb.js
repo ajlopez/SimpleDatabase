@@ -6,7 +6,7 @@ exports['get test db'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (data, next) {
@@ -20,7 +20,7 @@ exports['create author table'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
@@ -46,7 +46,7 @@ exports['create existing author table'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
@@ -71,7 +71,7 @@ exports['insert authors'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
@@ -109,7 +109,7 @@ exports['retrieve authors'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
@@ -138,7 +138,7 @@ exports['filter authors by name'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
@@ -168,7 +168,7 @@ exports['filter authors by age greater 600'] = function (test) {
     test.async();
     
     async()
-    .then(function (data, next) {
+    .exec(function (next) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
@@ -194,3 +194,4 @@ exports['filter authors by age greater 600'] = function (test) {
         test.done();
     });
 };
+
