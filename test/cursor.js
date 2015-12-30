@@ -37,6 +37,32 @@ exports['Create table'] = function (test) {
     });
 }
 
+exports['Insert documents'] = function (test) {
+    test.async();
+    
+    async()
+    .exec(function (next) { sdb.db('test').table('users').insert([
+            { name: 'Adam', age: 800 },
+            { name: 'Eve', age: 700 }
+        ]).run(connection, next); })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(typeof data, 'object');
+        
+        test.equal(data.unchanged, 0);
+        test.equal(data.skipped, 0);
+        test.equal(data.replaced, 0);
+        test.equal(data.inserted, 2);
+        test.ok(data.generated_keys);
+        test.ok(Array.isArray(data.generated_keys));
+        test.equal(data.generated_keys.length, 2);
+        test.equal(data.errors, 0);
+        test.equal(data.deleted, 0);
+        
+        test.done();
+    });
+}
+
 exports['Cursor of one Document'] = function (test) {
 	var table = getTable();
     table.insert({ name: 'Adam', age: 800 }).run();
