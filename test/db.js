@@ -20,5 +20,16 @@ exports['get database'] = function (test) {
     sdb.db('test').run(connection, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.done();
+    });
+};
+
+exports['create database'] = function (test) {
+    test.async();
+    
+    sdb.dbCreate('sales').run(connection, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.done();
     });
 };
