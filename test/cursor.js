@@ -24,7 +24,7 @@ exports['Create table'] = function (test) {
     
     async()
     .exec(function (next) { sdb.db('test').tableCreate('users').run(connection, next); })
-    .exec(function (data, next) {
+    .then(function (data, next) {
         test.ok(data);
         test.equal(typeof data, 'object');
         
