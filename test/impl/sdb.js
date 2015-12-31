@@ -70,10 +70,7 @@ exports['create author table'] = function (test) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
-        db.createTable('authors', next);
-    })
-    .then(function (table, next) {
-        table.run(next);
+        db.tableCreate('authors', next);
     })
     .then(function (data, next) {
         test.ok(data);
@@ -96,10 +93,7 @@ exports['create existing author table'] = function (test) {
         sdb.db('test', next);
     })
     .then(function (db, next) {
-        db.createTable('authors', next);
-    })
-    .then(function (table, next) {
-        table.run(next);
+        db.tableCreate('authors', next);
     })
     .then(function (data, next) {
         test.ok(data);
@@ -129,9 +123,6 @@ exports['insert authors'] = function (test) {
             { name: 'Eve', age: 700 },
             { name: 'Abel', age: 600 }
         ], next);
-    })
-    .then(function (insert, next) {
-        insert.run(next);
     })
     .then(function (data, next) {
         test.ok(data);

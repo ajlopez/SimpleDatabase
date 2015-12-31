@@ -19,7 +19,7 @@ exports['get connection'] = function (test) {
     });
 };
 
-exports['Create table'] = function (test) {
+exports['create table'] = function (test) {
     test.async();
     
     async()
@@ -41,10 +41,15 @@ exports['Insert documents'] = function (test) {
     test.async();
     
     async()
-    .exec(function (next) { sdb.db('test').table('users').insert([
+    .exec(function (next) { 
+        sdb.db('test')
+        .table('users')
+        .insert([
             { name: 'Adam', age: 800 },
             { name: 'Eve', age: 700 }
-        ]).run(connection, next); })
+        ])
+        .run(connection, next);
+    })
     .then(function (data, next) {
         test.ok(data);
         test.equal(typeof data, 'object');
