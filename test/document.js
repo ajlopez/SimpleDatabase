@@ -1,37 +1,79 @@
 
 var sdb = require('../');
+var async = require('simpleasync');
 
-function getTable() {
-    sdb.dbCreate('test').run();
-    var db = sdb.db('test');
-    db.tableCreate('customers').run();
-    var table = db.table('customers');
-    return table;
+var connection;
+
+exports['get connection'] = function (test) {
+    test.async();
+    
+    sdb.connection(function (err, conn) {
+        test.ok(!err);
+        test.ok(conn);
+        
+        test.equal(typeof conn, 'object');
+        
+        connection = conn;
+        
+        test.done();
+    });
+};
+
+exports['create table'] = function (test) {
+    test.async();
+    
+    async()
+    .exec(function (next) { sdb.db('test').tableCreate('customers').run(connection, next); })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(typeof data, 'object');
+        
+        test.ok(data.config_changes);
+        test.ok(Array.isArray(data.config_changes));
+        test.ok(data.tables_created);
+        test.equal(data.tables_created, 1);
+        
+        test.done();
+    });
 }
 
-exports['Insert and Get an Invariant Document'] = function (test) {
-    var table = getTable();
+exports['insert and retrieve an invariant document'] = function (test) {
+    test.async();
+    
     var doc = { name: 'Adam' };
-	var result = table.insert(doc).run();
+    
+    async()
+    .exec(function (next) {
+        sdb
+        .db('test')
+        .table('customers')
+        .insert(doc)
+        .run(connection, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.inserted, 1);
+        test.equal(result.errors, 0);
+        test.ok(result.generated_keys);
+        test.equal(result.generated_keys.length, 1);
+        test.equal(result.generated_keys[0], 1);
+        
+        test.ok(doc.id === undefined);
+        doc.name = 'New Adam';
 
-	test.ok(result);
-    test.equal(result.inserted, 1);
-    test.equal(result.errors, 0);
-    test.ok(result.keys);
-    test.equal(result.keys.length, 1);
-    test.equal(result.keys[0], 1);
-    
-    test.ok(doc.id === undefined);
-    
-    doc.name = 'New Adam';
-    
-    var newdoc = table.get(1).run();
-    
-    test.ok(newdoc);
-    test.equal(newdoc.id, 1);
-    test.equal(newdoc.name, 'Adam');
+        sdb
+        .db('test')
+        .table('customers')
+        .get(1)
+        .run(connection, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.id, 1);
+        test.equal(result.name, 'Adam');
 
-	test.done();
+        test.done();
+    });
 };
 
 exports['Insert and Get an Invariant Document with Array Values'] = function (test) {
