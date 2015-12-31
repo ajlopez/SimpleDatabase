@@ -118,30 +118,44 @@ exports['insert and get invariant document with array values'] = function (test)
     });
 };
 
-exports['Insert and Get an Invariant Document with Nested Document'] = function (test) {
-    var table = getTable();
+exports['insert and get an invariant document with nested document'] = function (test) {
+    test.async();
+    
     var doc = { name: 'Adam', wife: { name: 'Eve' } };
-	var result = table.insert(doc).run();
+    
+    async()
+    .exec(function (next) {
+        sdb
+        .db('test')
+        .table('customers')
+        .insert(doc)
+        .run(connection, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.inserted, 1);
+        test.equal(result.errors, 0);
+        test.ok(result.generated_keys);
+        test.equal(result.generated_keys.length, 1);
+        test.equal(result.generated_keys[0], 3);
+        
+        test.ok(doc.id === undefined);
+        doc.name = 'New Adam';
+        doc.wife.name = 'Lilith';
 
-	test.ok(result);
-    test.equal(result.inserted, 1);
-    test.equal(result.errors, 0);
-    test.ok(result.keys);
-    test.equal(result.keys.length, 1);
-    test.equal(result.keys[0], 1);
-    
-    test.ok(doc.id === undefined);
-    
-    doc.name = 'New Adam';
-    doc.wife.name = 'Lilith';
-    
-    var newdoc = table.get(1).run();
-    
-    test.ok(newdoc);
-    test.equal(newdoc.id, 1);
-    test.equal(newdoc.name, 'Adam');
-    test.equal(newdoc.wife.name, 'Eve');
+        sdb
+        .db('test')
+        .table('customers')
+        .get(3)
+        .run(connection, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.id, 3);
+        test.equal(result.name, 'Adam');
+        test.equal(result.wife.name, 'Eve');
 
-	test.done();
+        test.done();
+    });
 };
 
