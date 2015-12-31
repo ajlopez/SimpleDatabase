@@ -1,66 +1,90 @@
 
 var sdb = require('../');
+var async = require('simpleasync');
 
-function getTable() {
-    sdb.dbCreate('test').run();
-    var db = sdb.db('test');
-    db.tableCreate('customers').run();
-    var table = db.table('customers');
-    return table;
-}
+var connection;
 
-exports['Insert Document'] = function (test) {
-    var table = getTable();
-	var result = table.insert({ name: 'Adam' }).run();
-
-	test.ok(result);
-    test.equal(result.inserted, 1);
-    test.equal(result.errors, 0);
-    test.ok(result.keys);
-    test.equal(result.keys.length, 1);
-    test.equal(result.keys[0], 1);
-
-    var count = table.count().run();
-    test.equal(count, 1);
+exports['get connection'] = function (test) {
+    test.async();
     
-    var document = table.get(1).run();
-    
-    test.ok(document);
-    test.equal(document.id, 1);
-    test.equal(document.name, 'Adam');
-
-	test.done();
+    sdb.connection(function (err, conn) {
+        test.ok(!err);
+        test.ok(conn);
+        
+        test.equal(typeof conn, 'object');
+        
+        connection = conn;
+        
+        test.done();
+    });
 };
 
-exports['Insert an Array with Two Documents'] = function (test) {
-    var table = getTable();
-	var result = table.insert([{ name: 'Adam' }, {name : 'Eve'}]).run();
+exports['create table'] = function (test) {
+    test.async();
     
-	test.ok(result);
-    test.equal(result.inserted, 2);
-    test.equal(result.errors, 0);
-    test.ok(result.keys);
-    test.equal(result.keys.length, 2);
-    test.equal(result.keys[0], 1);
-    test.equal(result.keys[1], 2);
+    async()
+    .exec(function (next) { sdb.db('test').tableCreate('persons').run(connection, next); })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(typeof data, 'object');
+        
+        test.ok(data.config_changes);
+        test.ok(Array.isArray(data.config_changes));
+        test.ok(data.tables_created);
+        test.equal(data.tables_created, 1);
+        
+        test.done();
+    });
+}
 
-    var count = table.count().run();    
-    test.equal(count, 2);
+exports['insert document'] = function (test) {
+    test.async();
+    
+    var doc = { name: 'Adam' };
+    
+    async()
+    .exec(function (next) {
+        sdb
+        .db('test')
+        .table('persons')
+        .insert(doc)
+        .run(connection, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.inserted, 1);
+        test.equal(result.errors, 0);
+        test.ok(result.generated_keys);
+        test.equal(result.generated_keys.length, 1);
+        test.equal(result.generated_keys[0], 1);
 
-    var document = table.get(1).run();
-    
-    test.ok(document);
-    test.equal(document.id, 1);
-    test.equal(document.name, 'Adam');
+        test.done();
+    })
+};
 
-    var document = table.get(2).run();
+exports['insert an array with two documents'] = function (test) {
+    test.async();
     
-    test.ok(document);
-    test.equal(document.id, 2);
-    test.equal(document.name, 'Eve');
+    var docs = [{ name: 'Adam' }, {name : 'Eve'}];
     
-    test.equal(table.get(3).run(), null);
-    
-	test.done();
+    async()
+    .exec(function (next) {
+        sdb
+        .db('test')
+        .table('persons')
+        .insert(docs)
+        .run(connection, next);
+    })
+    .then(function (result, next) {
+        test.ok(result);
+        test.equal(result.inserted, 2);
+        test.equal(result.errors, 0);
+        test.ok(result.generated_keys);
+        test.equal(result.generated_keys.length, 2);
+        test.equal(result.generated_keys[0], 2);
+        test.equal(result.generated_keys[1], 3);
+
+        test.done();
+    })
 };
 
