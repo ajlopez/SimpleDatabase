@@ -27,7 +27,7 @@ exports['get database'] = function (test) {
 exports['create database'] = function (test) {
     test.async();
     
-    sdb.dbCreate('sales').run(connection, function (err, data) {
+    sdb.dbCreate('purchases').run(connection, function (err, data) {
         test.ok(!err);
         test.ok(data);
         test.done();
