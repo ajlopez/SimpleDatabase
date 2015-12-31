@@ -6,7 +6,7 @@ function getDb() {
     return sdb.db('test');
 }
 
-exports['Create Table'] = function (test) {
+exports['create table'] = function (test) {
     var db = getDb();
 	var query = db.tableCreate('customers').run();
     
