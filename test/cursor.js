@@ -1,6 +1,7 @@
 
 var sdb = require('../');
 var async = require('simpleasync');
+var sl = require('simplelists');
 
 var connection;
 
@@ -37,7 +38,7 @@ exports['create table'] = function (test) {
     });
 }
 
-exports['Insert documents'] = function (test) {
+exports['insert documents'] = function (test) {
     test.async();
     
     async()
@@ -68,60 +69,25 @@ exports['Insert documents'] = function (test) {
     });
 }
 
-exports['Cursor of one Document'] = function (test) {
-	var table = getTable();
-    table.insert({ name: 'Adam', age: 800 }).run();
-    var cursor = table.run();
-    var total = 0;
+exports['cursor of two documents'] = function (test) {
+    test.async();
     
-    cursor.next(function (document) {
-        total += document.age;
-        return true;
-    });
-    
-	test.equal(total, 800);    
-    
-	test.done();
+    async()
+    .exec(function (next) { 
+        sdb.db('test')
+        .table('users')
+        .run(connection, next);
+    })
+    .then(function (table, next) {
+        table.toArray(next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 2);
+        test.ok(sl.exist(data, { name: 'Adam', age: 800 }));
+        test.ok(sl.exist(data, { name: 'Eve', age: 700 }));
+        test.done();
+    })
 };
 
-exports['Cursor of Two Documents'] = function (test) {
-	var table = getTable();
-    table.insert([{ name: 'Adam', age: 800 }, { name: 'Eve', age: 600 }]).run();
-    var cursor = table.run();
-    var total = 0;
-    
-    cursor.next(function (document) {
-        total += document.age;
-        return true;
-    });
-    
-	test.equal(total, 1400);    
-    
-	test.done();
-};
-
-exports['Cursor returns Copy of Documents'] = function (test) {
-	var table = getTable();
-    table.insert([{ name: 'Adam', age: 800 }, { name: 'Eve', age: 600 }]).run();
-    var cursor = table.run();
-    var total = 0;
-    
-    cursor.next(function (document) {
-        total += document.age;
-        document.age += 1000;
-        return true;
-    });
-
-    var cursor2 = table.run();
-    var total2 = 0;
-    
-    cursor2.next(function (document) {
-        total2 += document.age;
-        return true;
-    });
-    
-	test.equal(total, 1400);    
-	test.equal(total2, 1400);    
-    
-	test.done();
-};
