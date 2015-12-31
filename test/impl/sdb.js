@@ -153,10 +153,7 @@ exports['retrieve authors'] = function (test) {
         db.table('authors', next);
     })
     .then(function (table, next) {
-        table.run(next);
-    })
-    .then(function (cursor, next) {
-        cursor.toArray(next);
+        table.toArray(next);
     })
     .then(function (data, next) {
         test.ok(data);
@@ -185,10 +182,7 @@ exports['filter authors by name'] = function (test) {
         table.filter(sdb.row('name').eq('Adam'), next);
     })
     .then(function (filter, next) {
-        filter.run(next);
-    })
-    .then(function (cursor, next) {
-        cursor.toArray(next);
+        filter.toArray(next);
     })
     .then(function (data, next) {
         test.ok(data);
@@ -215,10 +209,7 @@ exports['filter authors by age greater 600'] = function (test) {
         table.filter(sdb.row('age').gt(600), next);
     })
     .then(function (filter, next) {
-        filter.run(next);
-    })
-    .then(function (cursor, next) {
-        cursor.toArray(next);
+        filter.toArray(next);
     })
     .then(function (data, next) {
         test.ok(data);
