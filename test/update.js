@@ -95,7 +95,9 @@ exports['update document with new value'] = function (test) {
         test.equal(data.deleted, 0);
         test.equal(data.errors, 0);
         test.equal(data.inserted, 0);
-        test.deepEqual(data.changed, []);
+        test.ok(Array.isArray(data.changes));
+        test.equal(data.changes.length, 0);
+        test.deepEqual(data.changes, []);
         test.equal(data.replaced, 1);
         test.equal(data.skipped, 0);
         test.equal(data.unchanged, 0);        
