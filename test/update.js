@@ -159,21 +159,46 @@ exports['update column with column expression'] = function (test) {
     });
 };
 
-exports['Update Column with Add Expression'] = function (test) {
-    var table = getTable();
-	var result = table.insert({ name: 'Adam', age: 800 }).run();
+exports['update column with add expression'] = function (test) {
+    test.async();
     
-    var id = result.keys[0];
-    table.get(id).update({ age: sdb.row('age').add(100) }).run();
-    
-    var document = table.get(id).run();
-    
-    test.ok(document);
-    test.equal(document.id, id);
-    test.equal(document.name, 'Adam');
-    test.equal(document.age, 900);
+    async()
+    .exec(function (next) {
+        sdb
+        .db('company')
+        .table('persons')
+        .get(adamId)
+        .update({ age: sdb.row('age').add(100) })
+        .run(connection, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.equal(data.deleted, 0);
+        test.equal(data.errors, 0);
+        test.equal(data.inserted, 0);
+        test.ok(Array.isArray(data.changes));
+        test.equal(data.changes.length, 0);
+        test.deepEqual(data.changes, []);
+        test.equal(data.replaced, 1);
+        test.equal(data.skipped, 0);
+        test.equal(data.unchanged, 0);        
 
-	test.done();
+        sdb
+        .db('company')
+        .table('persons')
+        .get(adamId)
+        .run(connection, next);    
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        
+        test.equal(data.id, adamId);
+        test.equal(data.name, "Adam");
+        test.equal(data.username, "Adam");
+        test.equal(data.age, 900);
+
+        test.done();
+    });
 };
 
 exports['Update Column with Sub Expression'] = function (test) {
