@@ -1,7 +1,5 @@
 
 var sdb = require('../');
-
-var sdb = require('../');
 var async = require('simpleasync');
 
 var connection;
