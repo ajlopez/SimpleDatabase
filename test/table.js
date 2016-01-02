@@ -35,7 +35,7 @@ exports['create table'] = function (test) {
     test.async();
     
     async()
-    .exec(function (next) { sdb.db('warehouse').tableCreate('employees').run(connection, next); })
+    .exec(function (next) { sdb.db('warehouse').tableCreate('customers').run(connection, next); })
     .then(function (data, next) {
         test.ok(data);
         test.equal(typeof data, 'object');
@@ -53,7 +53,7 @@ exports['create another table'] = function (test) {
     test.async();
     
     async()
-    .exec(function (next) { sdb.db('warehouse').tableCreate('products').run(connection, next); })
+    .exec(function (next) { sdb.db('warehouse').tableCreate('suppliers').run(connection, next); })
     .then(function (data, next) {
         test.ok(data);
         test.equal(typeof data, 'object');
@@ -65,18 +65,26 @@ exports['create another table'] = function (test) {
         
         test.done();
     });
-}
+};
 
 exports['list tables'] = function (test) {
-    var db = getDb();
-	db.tableCreate('customers').run();
-	db.tableCreate('suppliers').run();
-    var query = db.tableList().run();
+    test.async();
     
-    query.collect(function (results) {
-        test.ok(results.indexOf('customers') >= 0);
-        test.ok(results.indexOf('suppliers') >= 0);
-    });
-
-	test.done();
+    async()
+    .exec(function (next) {
+        sdb
+        .db("warehouse")
+        .tableList()
+        .run(connection, next);
+    })
+    .then(function (data, next) {
+        test.ok(data);
+        test.ok(Array.isArray(data));
+        test.equal(data.length, 2);
+        test.equal(data[0], "customers");
+        test.equal(data[1], "suppliers");
+        
+        test.done();
+    })
 };
+
