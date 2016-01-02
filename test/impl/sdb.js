@@ -1,6 +1,7 @@
 
 var sdb = require('../../lib/impl/sdb');
 var async = require('simpleasync');
+var sl = require('simplelists');
 
 exports['get test db'] = function (test) {
     test.async();
@@ -160,9 +161,9 @@ exports['retrieve authors'] = function (test) {
         test.ok(Array.isArray(data));
         test.equal(data.length, 3);
         
-        test.deepEqual(data[0], { id: 1, name: 'Adam', age: 800 });
-        test.deepEqual(data[1], { id: 2, name: 'Eve', age: 700 });
-        test.deepEqual(data[2], { id: 3, name: 'Abel', age: 600 });
+        test.ok(sl.exist(data, { id: 1, name: 'Adam', age: 800 }));
+        test.ok(sl.exist(data, { id: 2, name: 'Eve', age: 700 }));
+        test.ok(sl.exist(data, { id: 3, name: 'Abel', age: 600 }));
         
         test.done();
     });
@@ -189,7 +190,7 @@ exports['filter authors by name'] = function (test) {
         test.ok(Array.isArray(data));
         test.equal(data.length, 1);
         
-        test.deepEqual(data[0], { id: 1, name: 'Adam', age: 800 });
+        test.ok(sl.exist(data, { id: 1, name: 'Adam', age: 800 }));
         
         test.done();
     });
@@ -216,8 +217,8 @@ exports['filter authors by age greater 600'] = function (test) {
         test.ok(Array.isArray(data));
         test.equal(data.length, 2);
         
-        test.deepEqual(data[0], { id: 1, name: 'Adam', age: 800 });
-        test.deepEqual(data[1], { id: 2, name: 'Eve', age: 700 });
+        test.ok(sl.exist(data, { id: 1, name: 'Adam', age: 800 }));
+        test.ok(sl.exist(data, { id: 2, name: 'Eve', age: 700 }));
         
         test.done();
     });
