@@ -45,6 +45,7 @@ TBD
 - [RethingDB API](http://www.rethinkdb.com/api/)
 - [What is the advantage of RethinkDB over MongoDB?](http://www.quora.com/RethinkDB/What-is-the-advantage-of-RethinkDB-over-MongoDB)
 - [RethinkDB: Analyzing presidential elections](http://www.rethinkdb.com/docs/tutorials/elections/)
+- [JavaScript Inheritance](http://javascript.info/tutorial/inheritance)
 
 ## Contribution
 
